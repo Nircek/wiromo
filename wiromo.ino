@@ -1,4 +1,5 @@
-//includes
+#include <IRremote.h>
+//get it from https://github.com/z3t0/Arduino-IRremote
 
 //output pins defines
 
