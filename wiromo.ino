@@ -10,10 +10,12 @@
 //IR commands defines
 
 //function definitions with their globals
+void setPins();
 
 
 void setup(){
   //setup
+  setPins();
 }
 
 void loop(){
@@ -21,4 +23,7 @@ void loop(){
 }
 
 //function bodys
+void setPins(){
+  
+}
 
