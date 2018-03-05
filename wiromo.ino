@@ -1,11 +1,28 @@
 #include <IRremote.h>
 //get it from https://github.com/z3t0/Arduino-IRremote
 
-//TODO: output pins defines
+#define MRD     13      //Right Motor Direction
+#define MLD     12      //Left Motor Direction
+#define MR      11      //Right Motor Speed
+#define ML      10      //Left Motor Speed
+#define IR      9
+//#define IRON    8
+#define LED     7       //mode LED
+//#define BTON    A0
+//#define SLON    5
+//#define LFON    4
+//#define OFF     3
+#define BUTTON  2       //button for changing modes
+#define TX      1
+#define RX      0
 
-//TODO: input pins defines
+#define SLR     A1
+#define SLL     A2
+#define LFR     A3
+#define LFC     A4
+#define LFL     A5
 
-//TODO: mode define
+//TODO: mode defines
 
 //TODO: IR commands defines
 
