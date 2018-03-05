@@ -83,7 +83,7 @@ void loopBTMode(){
   
 }
 void loopIRMode(){
-  
+  //branch for IR programming
 }
 void loopSLMode(){
   
