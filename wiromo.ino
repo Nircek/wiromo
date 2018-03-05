@@ -86,7 +86,7 @@ void loopIRMode(){
   
 }
 void loopSLMode(){
-  
+  //branch for SL programming
 }
 void loopLFMode(){
   
