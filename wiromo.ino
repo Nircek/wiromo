@@ -33,7 +33,10 @@ int gMode=0; //zmienna przechowująca aktualnie włączony tryb
 //change mode
 void chMode(); //funkcja wywoływana po naciśnięciu przycisku zmiany trybu
 void updateModeLED(); //odświerza stan diody trybów
-//TODO: functions of loop for each mode
+void loopBTMode();
+void loopIRMode();
+void loopSLMode();
+void loopLFMode();
 
 //TODO: functions for motor management
 
@@ -46,7 +49,12 @@ void setup(){
 void loop(){
   //loop
   updateModeLED();
-  //TODO: switch gMode with cases of modes
+  switch(gMode){
+    case 1: loopBTMode(); break;
+    case 2: loopIRMode(); break;
+    case 3: loopSLMode(); break;
+    case 4: loopLFMode(); break;
+  }
 }
 
 //function bodys
@@ -61,6 +69,20 @@ void chMode(){
   
 }
 void updateModeLED(){
+  
+}
+
+
+void loopBTMode(){
+  
+}
+void loopIRMode(){
+  
+}
+void loopSLMode(){
+  
+}
+void loopLFMode(){
   
 }
 
