@@ -80,15 +80,19 @@ void updateMotors(){
 }
 
 void loopBTMode(){
-  
+  //this is master branch
+  //if you want to edit code there go to BT-programming branch
 }
 void loopIRMode(){
-  
+  //this is master branch
+  //if you want to edit code there go to IR-programming branch
 }
 void loopSLMode(){
-  
+  //this is master branch
+  //if you want to edit code there go to SL-programming branch
 }
 void loopLFMode(){
-  
+  //this is master branch
+  //if you want to edit code there go to LF-programming branch
 }
 
