@@ -80,7 +80,7 @@ void updateMotors(){
 }
 
 void loopBTMode(){
-  
+  //branch for BT programming
 }
 void loopIRMode(){
   
