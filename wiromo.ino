@@ -38,7 +38,9 @@ void loopIRMode();
 void loopSLMode();
 void loopLFMode();
 
-//TODO: functions for motor management
+int gML=0;  //napięcie na lewym silniku (dodatnie - do przodu, ujemne - do tyłu)
+int gMR=0;  //napięcie na prawym silniku (dodatnie - do przodu, ujemne - do tyłu)
+void updateMotors();  //funkcja zmieniająca rzeczywiste napięcie
 
 void setup(){
   //setup
@@ -55,6 +57,7 @@ void loop(){
     case 3: loopSLMode(); break;
     case 4: loopLFMode(); break;
   }
+  updateMotors();
 }
 
 //function bodys
@@ -72,6 +75,9 @@ void updateModeLED(){
   
 }
 
+void updateMotors(){
+  
+}
 
 void loopBTMode(){
   
