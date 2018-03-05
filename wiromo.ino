@@ -89,6 +89,6 @@ void loopSLMode(){
   
 }
 void loopLFMode(){
-  
+  //branch for LF programming
 }
 
