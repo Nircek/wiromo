@@ -1,30 +1,30 @@
 #include <IRremote.h>
-//get it from https://github.com/z3t0/Arduino-IRremote
+//weź ją stąd https://github.com/z3t0/Arduino-IRremote
 
-#define MRD     13      //Right Motor Direction
-#define MLD     12      //Left Motor Direction
-#define MR      11      //Right Motor Speed
-#define ML      10      //Left Motor Speed
+#define MRD     13      //Right Motor Direction - kierunek obrotu prawego silnika
+#define MLD     12      //Left Motor Direction - kierunek obrotu lewego silnika
+#define MR      11      //Right Motor Speed - prędkość obrotu prawego silnika
+#define ML      10      //Left Motor Speed - prędkość obrotu lewego silnika
 #define IR      9
 //#define IRON    8
-#define LED     7       //mode LED
+#define LED     7       //dioda trybu
 //#define BTON    A0
 //#define SLON    5
 //#define LFON    4
 //#define OFF     3
-#define BUTTON  2       //button for changing modes
-#define TX      1
-#define RX      0
+#define BUTTON  2       //przycisk do zmiany trybów
+#define TX      1       //pin do BT
+#define RX      0       //pin do BT
 
-#define SLR     A1
-#define SLL     A2
-#define LFR     A3
-#define LFC     A4
-#define LFL     A5
+#define SLR     A1      //sensor ŚwiatłoLuba Prawy
+#define SLL     A2      //sensor ŚwiatłoLuba Prawy
+#define LFR     A3      //sensor LineFollowera Prawy
+#define LFC     A4      //sensor LineFollowera Środkowy
+#define LFL     A5      //sensor LineFollowera Lewy
 
-//TODO: mode defines
+//TODO: definicje trybów
 
-//TODO: IR commands defines
+//TODO: defincje komend IR'a
 
 void setPins();
 
@@ -62,10 +62,10 @@ void loop(){
 
 //function bodys
 void setPins(){
-  //TODO: set LOW voltage on motors
-  //TODO: set pin mode of each pin
-  //TODO: enable IR
-  //TODO: interrupt connected between button pin and chMode()
+  //TODO: ustawić niskie napięcie na silnikach
+  //TODO: ustawić tryby każdego pinu
+  //TODO: uruchomić IR
+  //TODO: przerwanie między pinem przycisku i chMode()
 }
 
 void chMode(){
@@ -80,19 +80,19 @@ void updateMotors(){
 }
 
 void loopBTMode(){
-  //this is master branch
-  //if you want to edit code there go to BT-programming branch
+  //to jest gałąź 'master'
+  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'BT-programming'
 }
 void loopIRMode(){
-  //this is master branch
-  //if you want to edit code there go to IR-programming branch
+  //to jest gałąź 'master'
+  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'IR-programming'
 }
 void loopSLMode(){
-  //this is master branch
-  //if you want to edit code there go to SL-programming branch
+  //to jest gałąź 'master'
+  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'SL-programming'
 }
 void loopLFMode(){
-  //this is master branch
-  //if you want to edit code there go to LF-programming branch
+  //to jest gałąź 'master'
+  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'LF-programming'
 }
 
