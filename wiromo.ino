@@ -80,7 +80,7 @@ void updateMotors(){
 }
 
 void loopBTMode(){
-  //gałąź do programowania BT
+  
 }
 void loopIRMode(){
   
