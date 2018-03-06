@@ -80,19 +80,15 @@ void updateMotors(){
 }
 
 void loopBTMode(){
-  //to jest gałąź 'master'
-  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'BT-programming'
+  //gałąź do programowania BT
 }
 void loopIRMode(){
-  //to jest gałąź 'master'
-  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'IR-programming'
+  
 }
 void loopSLMode(){
-  //to jest gałąź 'master'
-  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'SL-programming'
+  
 }
 void loopLFMode(){
-  //to jest gałąź 'master'
-  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'LF-programming'
+  
 }
 
