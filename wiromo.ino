@@ -22,7 +22,14 @@
 #define LFC     A4      //sensor LineFollowera Środkowy
 #define LFL     A5      //sensor LineFollowera Lewy
 
-//TODO: definicje trybów
+#define MBASE   100
+#define MMUL    3
+#define MBT     MBASE
+#define MIR     MBT*MMUL
+#define MSL     MIR*MMUL
+#define MLF     MSL*MMUL
+#define MFI     MLF*MMUL
+#define BCD     500     //Button CoolDown
 
 IRrecv ir(IR);
 decode_results IRres;
@@ -35,7 +42,8 @@ decode_results IRres;
 void setPins();
 
 //global mode
-int gMode=0; //zmienna przechowująca aktualnie włączony tryb
+int gMode=MBT; //zmienna przechowująca aktualnie włączony tryb
+int gCooldown=0;
 //change mode
 void chMode(); //funkcja wywoływana po naciśnięciu przycisku zmiany trybu
 void updateModeLED(); //odświerza stan diody trybów
@@ -58,10 +66,10 @@ void loop(){
   //loop
   updateModeLED();
   switch(gMode){
-    case 1: loopBTMode(); break;
-    case 2: loopIRMode(); break;
-    case 3: loopSLMode(); break;
-    case 4: loopLFMode(); break;
+    case MBT: loopBTMode(); break;
+    case MIR: loopIRMode(); break;
+    case MSL: loopSLMode(); break;
+    case MLF: loopLFMode(); break;
   }
   updateMotors();
 }
@@ -85,11 +93,17 @@ void setPins(){
 
   ir.enableIRIn();
   
-  //TODO: przerwanie między pinem przycisku i chMode()
+  attachInterrupt(digitalPinToInterrupt(BUTTON), chMode, RISING);
 }
 
 void chMode(){
-  
+  if(millis()-gCooldown>BCD){
+    gMode*=3;
+    if(gMode==MFI)gMode=0;
+    if(gMode==0)gMode=MBT;
+    Serial.println(gMode);
+    gCooldown=millis();
+  }else Serial.println("COOLDOWN");
 }
 void updateModeLED(){
   
