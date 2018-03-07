@@ -24,7 +24,13 @@
 
 //TODO: definicje trybów
 
-//TODO: defincje komend IR'a
+IRrecv ir(IR);
+decode_results IRres;
+#define IRCUP     0x000000
+#define IRCDOWN   0x000000
+#define IRCLEFT   0x000000
+#define IRCRIGHT  0x000000
+#define IRCSTOP   0x000000
 
 void setPins();
 
@@ -76,7 +82,9 @@ void setPins(){
   pinMode(LFL,INPUT);
   pinMode(LFC,INPUT);
   pinMode(LFR,INPUT);
-  //TODO: uruchomić IR
+
+  ir.enableIRIn();
+  
   //TODO: przerwanie między pinem przycisku i chMode()
 }
 
