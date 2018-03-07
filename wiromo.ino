@@ -62,8 +62,20 @@ void loop(){
 
 //function bodys
 void setPins(){
-  //TODO: ustawić niskie napięcie na silnikach
-  //TODO: ustawić tryby każdego pinu
+  pinMode(MR,OUTPUT);
+  pinMode(ML,OUTPUT);
+  digitalWrite(MR,LOW);
+  digitalWrite(ML,LOW);
+  
+  pinMode(MRD,OUTPUT);
+  pinMode(MLD,OUTPUT);
+  pinMode(LED,OUTPUT);
+  pinMode(BUTTON,INPUT);
+  pinMode(SLL,INPUT);
+  pinMode(SLR,INPUT);
+  pinMode(LFL,INPUT);
+  pinMode(LFC,INPUT);
+  pinMode(LFR,INPUT);
   //TODO: uruchomić IR
   //TODO: przerwanie między pinem przycisku i chMode()
 }
