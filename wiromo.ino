@@ -33,11 +33,11 @@
 
 IRrecv ir(IR);
 decode_results IRres;
-#define IRCUP     0x000000
-#define IRCDOWN   0x000000
-#define IRCLEFT   0x000000
-#define IRCRIGHT  0x000000
-#define IRCSTOP   0x000000
+#define IRCUP     0x000001
+#define IRCDOWN   0x000002
+#define IRCLEFT   0x000003
+#define IRCRIGHT  0x000004
+#define IRCSTOP   0x000005
 
 void setPins();
 
@@ -118,10 +118,17 @@ void loopBTMode(){
 }
 void loopIRMode(){
   //branch for IR programming
-  if (irrecv.decode(&results)){
-    Serial.print(results.value);
-    Serial.println(" ");
-    irrecv.resume();
+  if (ir.decode(&IRres)){
+    Serial.print(IRres.value, HEX);
+    switch(IRres.value){
+      case IRCUP:Serial.println("(UP)");break;
+      case IRCDOWN:Serial.println("(DOWN)");break;
+      case IRCLEFT:Serial.println("(LEFT)");break;
+      case IRCRIGHT:Serial.println("(RIGHT)");break;
+      case IRCSTOP:Serial.println("(STOP)");break;
+      default:Serial.println("(UNKN)");break;
+    }
+    ir.resume();
     delay(100);
   }
 }
