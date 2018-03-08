@@ -1,35 +1,49 @@
 #include <IRremote.h>
-//get it from https://github.com/z3t0/Arduino-IRremote
+//weź ją stąd https://github.com/z3t0/Arduino-IRremote
 
-#define MRD     13      //Right Motor Direction
-#define MLD     12      //Left Motor Direction
-#define MR      11      //Right Motor Speed
-#define ML      10      //Left Motor Speed
+#define MRD     13      //Right Motor Direction - kierunek obrotu prawego silnika
+#define MLD     12      //Left Motor Direction - kierunek obrotu lewego silnika
+#define MR      11      //Right Motor Speed - prędkość obrotu prawego silnika
+#define ML      10      //Left Motor Speed - prędkość obrotu lewego silnika
 #define IR      9
 //#define IRON    8
-#define LED     7       //mode LED
+#define LED     7       //dioda trybu
 //#define BTON    A0
 //#define SLON    5
 //#define LFON    4
 //#define OFF     3
-#define BUTTON  2       //button for changing modes
-#define TX      1
-#define RX      0
+#define BUTTON  2       //przycisk do zmiany trybów
+#define TX      1       //pin do BT
+#define RX      0       //pin do BT
 
-#define SLR     A1
-#define SLL     A2
-#define LFR     A3
-#define LFC     A4
-#define LFL     A5
+#define SLR     A1      //sensor ŚwiatłoLuba Prawy
+#define SLL     A2      //sensor ŚwiatłoLuba Prawy
+#define LFR     A3      //sensor LineFollowera Prawy
+#define LFC     A4      //sensor LineFollowera Środkowy
+#define LFL     A5      //sensor LineFollowera Lewy
 
-//TODO: mode defines
+#define MBASE   100
+#define MMUL    3
+#define MBT     MBASE
+#define MIR     MBT*MMUL
+#define MSL     MIR*MMUL
+#define MLF     MSL*MMUL
+#define MFI     MLF*MMUL
+#define BCD     500     //Button CoolDown
 
-//TODO: IR commands defines
+IRrecv ir(IR);
+decode_results IRres;
+#define IRCUP     0x000000
+#define IRCDOWN   0x000000
+#define IRCLEFT   0x000000
+#define IRCRIGHT  0x000000
+#define IRCSTOP   0x000000
 
 void setPins();
 
 //global mode
-int gMode=0; //zmienna przechowująca aktualnie włączony tryb
+int gMode=MBT; //zmienna przechowująca aktualnie włączony tryb
+int gCooldown=0;
 //change mode
 void chMode(); //funkcja wywoływana po naciśnięciu przycisku zmiany trybu
 void updateModeLED(); //odświerza stan diody trybów
@@ -52,24 +66,44 @@ void loop(){
   //loop
   updateModeLED();
   switch(gMode){
-    case 1: loopBTMode(); break;
-    case 2: loopIRMode(); break;
-    case 3: loopSLMode(); break;
-    case 4: loopLFMode(); break;
+    case MBT: loopBTMode(); break;
+    case MIR: loopIRMode(); break;
+    case MSL: loopSLMode(); break;
+    case MLF: loopLFMode(); break;
   }
   updateMotors();
 }
 
 //function bodys
 void setPins(){
-  //TODO: set LOW voltage on motors
-  //TODO: set pin mode of each pin
-  //TODO: enable IR
-  //TODO: interrupt connected between button pin and chMode()
+  pinMode(MR,OUTPUT);
+  pinMode(ML,OUTPUT);
+  digitalWrite(MR,LOW);
+  digitalWrite(ML,LOW);
+  
+  pinMode(MRD,OUTPUT);
+  pinMode(MLD,OUTPUT);
+  pinMode(LED,OUTPUT);
+  pinMode(BUTTON,INPUT);
+  pinMode(SLL,INPUT);
+  pinMode(SLR,INPUT);
+  pinMode(LFL,INPUT);
+  pinMode(LFC,INPUT);
+  pinMode(LFR,INPUT);
+
+  ir.enableIRIn();
+  
+  attachInterrupt(digitalPinToInterrupt(BUTTON), chMode, RISING);
 }
 
 void chMode(){
-  
+  if(millis()-gCooldown>BCD){
+    gMode*=3;
+    if(gMode==MFI)gMode=0;
+    if(gMode==0)gMode=MBT;
+    Serial.println(gMode);
+    gCooldown=millis();
+  }else Serial.println("COOLDOWN");
 }
 void updateModeLED(){
   
