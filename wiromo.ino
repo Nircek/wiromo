@@ -114,19 +114,21 @@ void updateMotors(){
 }
 
 void loopBTMode(){
-  //to jest gałąź 'master'
-  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'BT-programming'
+  
 }
 void loopIRMode(){
-  //to jest gałąź 'master'
-  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'IR-programming'
+  //branch for IR programming
+  if (irrecv.decode(&results)){
+    Serial.print(results.value);
+    Serial.println(" ");
+    irrecv.resume();
+    delay(100);
+  }
 }
 void loopSLMode(){
-  //to jest gałąź 'master'
-  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'SL-programming'
+  
 }
 void loopLFMode(){
-  //to jest gałąź 'master'
-  //jeżeli chcesz edytować tutaj kod idź do gałęzi 'LF-programming'
+  
 }
 
