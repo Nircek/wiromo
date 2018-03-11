@@ -119,13 +119,7 @@ void loopBTMode(){
   
 }
 void loopIRMode(){
-  //branch for IR programming
-  if (irrecv.decode(&results)){
-    Serial.print(results.value);
-    Serial.println(" ");
-    irrecv.resume();
-    delay(100);
-  }
+  
 }
 void loopSLMode(){
   
