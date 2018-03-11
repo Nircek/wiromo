@@ -106,7 +106,9 @@ void chMode(){
   }else Serial.println("COOLDOWN");
 }
 void updateModeLED(){
-  
+  unsigned long time=millis();
+  time%=2*gMode;
+  digitalWrite(LED,time>gMode);
 }
 
 void updateMotors(){
