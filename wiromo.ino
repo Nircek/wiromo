@@ -112,7 +112,12 @@ void updateModeLED(){
 }
 
 void updateMotors(){
-  
+  if(gML>0){digitalWrite(MLD,HIGH);digitalWrite(ML, HIGH);}
+  else if(gML==0)digitalWrite(ML, LOW);
+  else{digitalWrite(MLD, LOW);digitalWrite(ML, HIGH);}
+  if(gMR>0){digitalWrite(MRD,HIGH);digitalWrite(MR, HIGH);}
+  else if(gMR==0)digitalWrite(ML, LOW);
+  else{digitalWrite(MRD, LOW);digitalWrite(MR, HIGH);}
 }
 
 void loopBTMode(){
