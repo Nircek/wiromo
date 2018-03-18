@@ -28,15 +28,16 @@
 
 IRrecv ir(IR);
 decode_results IRres;
-#define IRCNW   0x000001
-#define IRCN    0x000002
-#define IRCNF   0x000003
-#define IRCW    0x000004
-#define IRCO    0x000005
-#define IRCF    0x000006
-#define IRCSW   0x000007
-#define IRCS    0x000008
-#define IRCSF   0x000009
+#define IRCNW   0xFF30CF
+#define IRCN    0xFF18E7
+#define IRCNF   0xFF7A85
+#define IRCW    0xFF10EF
+#define IRCO    0xFF38C7
+#define IRCF    0xFF5AA5
+#define IRCSW   0xFF42BD
+#define IRCS    0xFF4AB5
+#define IRCSF   0xFF52AD
+
 
 void setPins();
 
@@ -66,7 +67,7 @@ void updateMotors();  //funkcja zmieniająca rzeczywiste napięcie
 void setup(){
   //setup
   setPins();
-  //TODO: begin BT Serial
+  Serial.begin(9600);
 }
 
 void loop(){
