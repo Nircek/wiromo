@@ -1,23 +1,18 @@
 #include <IRremote.h>
 //weź ją stąd https://github.com/z3t0/Arduino-IRremote
 
-#define MRD     13      //Right Motor Direction - kierunek obrotu prawego silnika
-#define MLD     12      //Left Motor Direction - kierunek obrotu lewego silnika
-#define MR      11      //Right Motor Speed - prędkość obrotu prawego silnika
-#define ML      10      //Left Motor Speed - prędkość obrotu lewego silnika
+#define MRF     13      //Right Motor Forward
+#define MLF     12      //Left Motor Forward
+#define MRB     11      //Right Motor Backward
+#define MLB     10      //Left Motor Backward
 #define IR      9
-//#define IRON    8
 #define LED     7       //dioda trybu
-//#define BTON    A0
-//#define SLON    5
-//#define LFON    4
-//#define OFF     3
 #define BUTTON  2       //przycisk do zmiany trybów
 #define TX      1       //pin do BT
 #define RX      0       //pin do BT
 
-#define SLR     A1      //sensor ŚwiatłoLuba Prawy
-#define SLL     A2      //sensor ŚwiatłoLuba Prawy
+#define SLR     A0      //sensor ŚwiatłoLuba Prawy
+#define SLL     A1      //sensor ŚwiatłoLuba Prawy
 #define LFR     A3      //sensor LineFollowera Prawy
 #define LFC     A4      //sensor LineFollowera Środkowy
 #define LFL     A5      //sensor LineFollowera Lewy
@@ -76,13 +71,15 @@ void loop(){
 
 //function bodys
 void setPins(){
-  pinMode(MR,OUTPUT);
-  pinMode(ML,OUTPUT);
-  digitalWrite(MR,LOW);
-  digitalWrite(ML,LOW);
+  pinMode(MRF,OUTPUT);
+  pinMode(MLF,OUTPUT);
+  pinMode(MRB,OUTPUT);
+  pinMode(MLB,OUTPUT);
+  digitalWrite(MRF,LOW);
+  digitalWrite(MLF,LOW);
+  digitalWrite(MRB,LOW);
+  digitalWrite(MLB,LOW);
   
-  pinMode(MRD,OUTPUT);
-  pinMode(MLD,OUTPUT);
   pinMode(LED,OUTPUT);
   pinMode(BUTTON,INPUT);
   pinMode(SLL,INPUT);
@@ -112,12 +109,12 @@ void updateModeLED(){
 }
 
 void updateMotors(){
-  if(gML>0){digitalWrite(MLD,HIGH);digitalWrite(ML, HIGH);}
-  else if(gML==0)digitalWrite(ML, LOW);
-  else{digitalWrite(MLD, LOW);digitalWrite(ML, HIGH);}
-  if(gMR>0){digitalWrite(MRD,HIGH);digitalWrite(MR, HIGH);}
-  else if(gMR==0)digitalWrite(ML, LOW);
-  else{digitalWrite(MRD, LOW);digitalWrite(MR, HIGH);}
+  if(gML>0){digitalWrite(MLF,HIGH);digitalWrite(MLB, LOW);}
+  else if(gML==0){digitalWrite(MLF,LOW);digitalWrite(MLB, LOW);}
+  else{digitalWrite(MLF, LOW);digitalWrite(MLB, HIGH);}
+  if(gMR>0){digitalWrite(MRF,HIGH);digitalWrite(MRB, LOW);}
+  else if(gMR==0){digitalWrite(MRF,LOW);digitalWrite(MRB, LOW);}
+  else{digitalWrite(MRF, LOW);digitalWrite(MRB, HIGH);}
 }
 
 void loopBTMode(){
