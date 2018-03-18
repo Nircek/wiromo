@@ -28,11 +28,15 @@
 
 IRrecv ir(IR);
 decode_results IRres;
-#define IRCUP     0x000001
-#define IRCDOWN   0x000002
-#define IRCLEFT   0x000003
-#define IRCRIGHT  0x000004
-#define IRCSTOP   0x000005
+#define IRCNW   0x000001
+#define IRCN    0x000002
+#define IRCNF   0x000003
+#define IRCW    0x000004
+#define IRCO    0x000005
+#define IRCF    0x000006
+#define IRCSW   0x000007
+#define IRCS    0x000008
+#define IRCSF   0x000009
 
 void setPins();
 
@@ -130,12 +134,16 @@ void loopIRMode(){
   if (ir.decode(&IRres)){
     Serial.print(IRres.value, HEX);
     switch(IRres.value){
-      case IRCUP:Serial.println("(UP)");break;
-      case IRCDOWN:Serial.println("(DOWN)");break;
-      case IRCLEFT:Serial.println("(LEFT)");break;
-      case IRCRIGHT:Serial.println("(RIGHT)");break;
-      case IRCSTOP:Serial.println("(STOP)");break;
-      default:Serial.println("(UNKN)");break;
+      case IRCNW: Serial.println("(NW)"); break;
+      case IRCN:  Serial.println("(N)");  break;
+      case IRCNF: Serial.println("(NF)"); break;
+      case IRCW:  Serial.println("(W)");  break;
+      case IRCO:  Serial.println("(O)");  break;
+      case IRCF:  Serial.println("(F)");  break;
+      case IRCSW: Serial.println("(SW)"); break;
+      case IRCS:  Serial.println("(S)");  break;
+      case IRCSF: Serial.println("(SF)"); break;
+      default:    Serial.println();       break;
     }
     ir.resume();
     delay(100);
