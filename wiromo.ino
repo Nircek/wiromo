@@ -135,16 +135,17 @@ void loopIRMode(){
   if (ir.decode(&IRres)){
     Serial.print(IRres.value, HEX);
     switch(IRres.value){
-      case IRCNW: Serial.println("(NW)"); break;
-      case IRCN:  Serial.println("(N)");  break;
-      case IRCNF: Serial.println("(NF)"); break;
-      case IRCW:  Serial.println("(W)");  break;
-      case IRCO:  Serial.println("(O)");  break;
-      case IRCF:  Serial.println("(F)");  break;
-      case IRCSW: Serial.println("(SW)"); break;
-      case IRCS:  Serial.println("(S)");  break;
-      case IRCSF: Serial.println("(SF)"); break;
-      default:    Serial.println();       break;
+      case -1:    Serial.println();               break;
+      case IRCNW: Serial.println("(NW)"); gD=NW;  break;
+      case IRCN:  Serial.println("(N)");  gD=N;   break;
+      case IRCNF: Serial.println("(NF)"); gD=NF;  break;
+      case IRCW:  Serial.println("(W)");  gD=W;   break;
+      case IRCO:  Serial.println("(O)");  gD=O;   break;
+      case IRCF:  Serial.println("(F)");  gD=F;   break;
+      case IRCSW: Serial.println("(SW)"); gD=SW;  break;
+      case IRCS:  Serial.println("(S)");  gD=S;   break;
+      case IRCSF: Serial.println("(SF)"); gD=SF;  break;
+      default:    Serial.println();       gD=O;   break;
     }
     ir.resume();
     delay(100);
