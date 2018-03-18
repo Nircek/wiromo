@@ -17,13 +17,13 @@
 #define LFC     A4      //sensor LineFollowera Środkowy
 #define LFL     A5      //sensor LineFollowera Lewy
 
-#define MBASE   100
-#define MMUL    3
-#define MBT     MBASE
-#define MIR     MBT*MMUL
-#define MSL     MIR*MMUL
-#define MLF     MSL*MMUL
-#define MFI     MLF*MMUL
+#define TBASE   100
+#define TMUL    3
+#define TBT     TBASE
+#define TIR     TBT*TMUL
+#define TSL     TIR*TMUL
+#define TLF     TSL*TMUL
+#define TFI     TLF*TMUL
 #define BCD     500     //Button CoolDown
 
 IRrecv ir(IR);
@@ -37,7 +37,7 @@ decode_results IRres;
 void setPins();
 
 //global mode
-int gMode=MBT; //zmienna przechowująca aktualnie włączony tryb
+int gMode=TBT; //zmienna przechowująca aktualnie włączony tryb
 int gCooldown=0;
 //change mode
 void chMode(); //funkcja wywoływana po naciśnięciu przycisku zmiany trybu
@@ -47,8 +47,16 @@ void loopIRMode();
 void loopSLMode();
 void loopLFMode();
 
-int gML=0;  //napięcie na lewym silniku (dodatnie - do przodu, ujemne - do tyłu)
-int gMR=0;  //napięcie na prawym silniku (dodatnie - do przodu, ujemne - do tyłu)
+#define DRF 0b1000
+#define DLF 0b0100
+#define DRB 0b0010
+#define DLB 0b0001
+typedef enum direction{
+  NW=0b1000, N=0b1100, NF=0b0100,
+  W=0b1001,  O=0b0000,  F=0b0110,
+  SW=0b0001, S=0b0011, SF=0b0010  //SE kolidowało z jakąś stałą Arduino
+  } direction;
+direction gD;
 void updateMotors();  //funkcja zmieniająca rzeczywiste napięcie
 
 void setup(){
@@ -61,10 +69,10 @@ void loop(){
   //loop
   updateModeLED();
   switch(gMode){
-    case MBT: loopBTMode(); break;
-    case MIR: loopIRMode(); break;
-    case MSL: loopSLMode(); break;
-    case MLF: loopLFMode(); break;
+    case TBT: loopBTMode(); break;
+    case TIR: loopIRMode(); break;
+    case TSL: loopSLMode(); break;
+    case TLF: loopLFMode(); break;
   }
   updateMotors();
 }
@@ -95,9 +103,9 @@ void setPins(){
 
 void chMode(){
   if(millis()-gCooldown>BCD){
-    gMode*=3;
-    if(gMode==MFI)gMode=0;
-    if(gMode==0)gMode=MBT;
+    gMode*=TMUL;
+    if(gMode==TFI)gMode=0;
+    if(gMode==0)gMode=TBT;
     Serial.println(gMode);
     gCooldown=millis();
   }else Serial.println("COOLDOWN");
@@ -109,12 +117,10 @@ void updateModeLED(){
 }
 
 void updateMotors(){
-  if(gML>0){digitalWrite(MLF,HIGH);digitalWrite(MLB, LOW);}
-  else if(gML==0){digitalWrite(MLF,LOW);digitalWrite(MLB, LOW);}
-  else{digitalWrite(MLF, LOW);digitalWrite(MLB, HIGH);}
-  if(gMR>0){digitalWrite(MRF,HIGH);digitalWrite(MRB, LOW);}
-  else if(gMR==0){digitalWrite(MRF,LOW);digitalWrite(MRB, LOW);}
-  else{digitalWrite(MRF, LOW);digitalWrite(MRB, HIGH);}
+  digitalWrite(MRF, (gD&DRF)?HIGH:LOW);
+  digitalWrite(MLF, (gD&DLF)?HIGH:LOW);
+  digitalWrite(MRB, (gD&DRB)?HIGH:LOW);
+  digitalWrite(MLF, (gD&DLF)?HIGH:LOW);
 }
 
 void loopBTMode(){
