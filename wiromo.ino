@@ -1,9 +1,10 @@
 #include <IRremote.h>
 //weź ją stąd https://github.com/z3t0/Arduino-IRremote
+#include <SoftwareSerial.h>
 
 #define MRF     13      //Right Motor Forward
-#define MLF     12      //Left Motor Forward
-#define MRB     11      //Right Motor Backward
+#define MRB     12      //Right Motor Backward
+#define MLF     11      //Left Motor Forward
 #define MLB     10      //Left Motor Backward
 #define IR      9
 #define LED     7       //dioda trybu
@@ -43,31 +44,37 @@ void setPins();
 
 //global mode
 int gMode=TBT; //zmienna przechowująca aktualnie włączony tryb
-int gCooldown=0;
+unsigned long gCooldown=0;
 //change mode
 void chMode(); //funkcja wywoływana po naciśnięciu przycisku zmiany trybu
 void updateModeLED(); //odświerza stan diody trybów
+unsigned long BTrefresh=0;//moment w czasie, kiedy robot ma przestać jechać na krótkim
+int BTreftime=1000;//czas, przez który robot ma jechać na krótkim
 void loopBTMode();
 void loopIRMode();
 void loopSLMode();
 void loopLFMode();
 
+SoftwareSerial mySerial(5, 6); // RX, TX
+
 #define DRF 0b1000
-#define DLF 0b0100
-#define DRB 0b0010
+#define DRB 0b0100
+#define DLF 0b0010
 #define DLB 0b0001
 typedef enum direction{
-  NW=0b1000, N=0b1100, NF=0b0100,
+  NW=0b1000, N=0b1010, NF=0b0010,
   W=0b1001,  O=0b0000,  F=0b0110,
-  SW=0b0001, S=0b0011, SF=0b0010  //SE kolidowało z jakąś stałą Arduino
+  SW=0b0001, S=0b0101, SF=0b0100  //SE kolidowało z jakąś stałą Arduino
   } direction;
 direction gD;
+direction BTdef=O; //BT default ; kierunek, w który zmierza robot na długim
 void updateMotors();  //funkcja zmieniająca rzeczywiste napięcie
 
 void setup(){
   //setup
   setPins();
   Serial.begin(9600);
+  mySerial.begin(9600);
 }
 
 void loop(){
@@ -125,11 +132,43 @@ void updateMotors(){
   digitalWrite(MRF, (gD&DRF)?HIGH:LOW);
   digitalWrite(MLF, (gD&DLF)?HIGH:LOW);
   digitalWrite(MRB, (gD&DRB)?HIGH:LOW);
-  digitalWrite(MLF, (gD&DLF)?HIGH:LOW);
+  digitalWrite(MLB, (gD&DLB)?HIGH:LOW);
+  
+  Serial.print((gD&DRF)?HIGH:LOW);
+  Serial.print((gD&DLF)?HIGH:LOW);
+  Serial.print((gD&DRB)?HIGH:LOW);
+  Serial.println((gD&DLB)?HIGH:LOW);
 }
 
 void loopBTMode(){
-  
+  if(millis()>BTrefresh)gD=BTdef;
+  if(mySerial.available()>0){
+    char c=mySerial.read();
+    Serial.println(c);
+    mySerial.println(c);
+    bool dlugi=c<'a';//jeżeli istnieje ASCII to łapie tylko duże litery
+    c=dlugi?c:c-('a'-'A');//toUpperCase
+    switch(c){
+      /*Q W S
+         qwe
+        AaSdD  H
+         zxc   L
+        Z X C*/
+      case 'Q': gD=NW; break;
+      case 'W': gD=N;  break;
+      case 'E': gD=NF; break;
+      case 'A': gD=W;  break;
+      case 'S': gD=O;  break;
+      case 'D': gD=F;  break;
+      case 'Z': gD=SW; break;
+      case 'X': gD=S;  break;
+      case 'C': gD=SF; break;
+      case 'H': BTreftime+=100;break;
+      case 'L': BTreftime-=100;break;
+    }
+    if(!dlugi)BTrefresh=millis()+BTreftime;
+    else BTdef=gD;
+  }
 }
 void loopIRMode(){
   if (ir.decode(&IRres)){
